@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spotify/Screens/StartPage.dart';
+import 'package:spotify/Utils/colors.dart';
+import 'package:spotify/Utils/palette.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,11 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.promptTextTheme(
-          Theme.of(context).textTheme,
-        ),
-        // primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Palette.kToDark,
+          textTheme: GoogleFonts.promptTextTheme(
+            Theme.of(context).textTheme,
+          ),
+          scaffoldBackgroundColor: colorPrimary
+          // primarySwatch: Colors.blue,
+          ),
       home: const MyHomePage(),
     );
   }

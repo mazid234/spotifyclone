@@ -5,7 +5,7 @@ Widget filledButton(VoidCallback fn, BuildContext context, String text) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         shape: StadiumBorder(), backgroundColor: colorSecondary, elevation: 4),
-    onPressed: () {},
+    onPressed: fn,
     child: Container(
       width: MediaQuery.of(context).size.width * 0.7,
       height: 46,
