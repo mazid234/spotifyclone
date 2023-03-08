@@ -1,8 +1,62 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify/Services/auth.dart';
 import 'package:spotify/Utils/colors.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  String? errorMessage = '';
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await Auth().createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Widget _text(String txt) {
+    return Text(
+      txt,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: colorWhite,
+      ),
+    );
+  }
+
+  Widget _registerButton() {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: colorNextButton, shape: const StadiumBorder()),
+        onPressed: createUserWithEmailAndPassword,
+        child: const Text(
+          "Register",
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ));
+  }
+
+  Widget _errorMessage() {
+    return Text(
+      errorMessage == '' ? '' : "Humm? $errorMessage",
+      style: TextStyle(color: colorWhite),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +103,7 @@ class SignupScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "What’s your email?",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: colorWhite,
-                ),
-              ),
+              _text("What’s your email?"),
               Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -67,8 +114,9 @@ class SignupScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 4.0),
                   child: TextField(
-                    style: TextStyle(color: colorWhite, fontSize: 18),
-                    decoration: InputDecoration(
+                    controller: _emailController,
+                    style: const TextStyle(color: colorWhite, fontSize: 18),
+                    decoration: const InputDecoration(
                         border: InputBorder.none,
                         counterStyle: TextStyle(color: colorWhite)),
                     cursorColor: colorWhite,
@@ -76,19 +124,37 @@ class SignupScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
-              Center(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: colorNextButton,
-                        shape: const StadiumBorder()),
-                    onPressed: () {},
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    )),
+              _text("Enter Password"),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: colorTextfield,
+                ),
+                // ignore: prefer_const_constructors
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: TextField(
+                    controller: _passController,
+                    obscureText: true,
+                    style: const TextStyle(color: colorWhite, fontSize: 18),
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        counterStyle: TextStyle(color: colorWhite)),
+                    cursorColor: colorWhite,
+                  ),
+                ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(child: _registerButton()),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(child: _errorMessage())
             ],
           ),
         )

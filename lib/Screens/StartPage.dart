@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify/Screens/signup1.dart';
 import 'package:spotify/Utils/assets.dart';
 import 'package:spotify/Utils/colors.dart';
+import 'package:spotify/Utils/route_name.dart';
 import 'package:spotify/Widgets/filledButton.dart';
 import 'package:spotify/Widgets/outlinedButton.dart';
 
@@ -41,7 +42,7 @@ class StartPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Image.asset(spotifyLogo),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Container(
@@ -58,44 +59,42 @@ class StartPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       filledButton(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
-                            ));
+                        Navigator.pushNamed(context, RouteName.signupScreen);
                       }, context, "Sign up free"),
-                      SizedBox(
+                      const SizedBox(
                         height: 13,
                       ),
                       outlinedButton(
                           () {}, context, "Continue with Google", googleLogo),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                       outlinedButton(() {}, context, "Continue with Facebook",
                           facebookLogo),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                       outlinedButton(
                           () {}, context, "Continue with Apple", appleLogo),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                       TextButton(
-                          onPressed: () {},
-                          child: Text(
+                          onPressed: () {
+                            Navigator.pushNamed(context, RouteName.loginScreen);
+                          },
+                          child: const Text(
                             "Log in",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: colorWhite),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                     ],

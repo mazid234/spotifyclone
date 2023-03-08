@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spotify/Screens/StartPage.dart';
 import 'package:spotify/Utils/colors.dart';
 import 'package:spotify/Utils/palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spotify/Utils/route_name.dart';
+import 'package:spotify/Utils/routes.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -23,7 +29,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: colorPrimary
           // primarySwatch: Colors.blue,
           ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
+      initialRoute: RouteName.widgetTree,
+      onGenerateRoute: Routes.generateRoutes,
     );
   }
 }
@@ -37,12 +45,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
